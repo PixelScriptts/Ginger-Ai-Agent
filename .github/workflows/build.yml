@@ -43,9 +43,10 @@ jobs:
         env:
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
 
-      - name: Install MAUI workloads
+      - name: Restore .NET workloads
         run: |
-          dotnet workload install maui --from-rollback-file || dotnet workload install maui
+          # Restore workloads defined by the SDK/manifest. Avoid installing a platform-specific 'maui' workload name.
+          dotnet workload restore
 
       - name: Publish APK
         run: |
