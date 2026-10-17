@@ -5,22 +5,6 @@ namespace AiAgent.Pages;
 
 public partial class SettingsPage : ContentPage
 {
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        _ = RunEnterAnimation();
-    }
-
-    private async Task RunEnterAnimation()
-    {
-        try
-        {
-            this.Opacity = 0;
-            this.TranslationY = 12;
-            await Task.WhenAll(this.FadeTo(1, 300, Easing.CubicOut), this.TranslateTo(0, 0, 300, Easing.CubicOut));
-        }
-        catch { }
-    }
 
     private readonly ConversationStore _store;
     private AppSettings _settings = new();
@@ -193,6 +177,12 @@ public partial class SettingsPage : ContentPage
         _settings.Temperature = TempSlider.Value;
         _settings.UseCustomProvider = UseCustomSwitch.IsToggled;
         _settings.CustomProviderId = CustomProviderIdEntry.Text?.Trim() ?? "";
+        _settings.CustomProviderBaseUrl = CustomProviderBaseUrlEntry.Text?.Trim() ?? "";
+        _store.SaveSettings(_settings);
+        await RefreshConnectionsAsync();
+    }
+
+
         _settings.CustomProviderBaseUrl = CustomProviderBaseUrlEntry.Text?.Trim() ?? "";
         if (int.TryParse(MaxTokensEntry.Text, out var mt)) _settings.MaxTokens = mt;
         _store.SaveSettings(_settings);

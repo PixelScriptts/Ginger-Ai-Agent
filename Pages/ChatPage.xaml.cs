@@ -6,22 +6,6 @@ namespace AiAgent.Pages;
 
 public partial class ChatPage : ContentPage
 {
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        _ = RunEnterAnimation();
-    }
-
-    private async Task RunEnterAnimation()
-    {
-        try
-        {
-            this.Opacity = 0;
-            this.TranslationY = 12;
-            await Task.WhenAll(this.FadeTo(1, 300, Easing.CubicOut), this.TranslateTo(0, 0, 300, Easing.CubicOut));
-        }
-        catch { }
-    }
 
     private readonly ConversationStore _store;
     private readonly AgentService _agent;
@@ -39,6 +23,7 @@ public partial class ChatPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        _ = RunEnterAnimation();
         var list = await _store.LoadConversationsAsync();
         if (list.Count == 0)
         {
@@ -84,6 +69,17 @@ public partial class ChatPage : ContentPage
         {
             Busy.IsVisible = false; Busy.IsRunning = false;
         }
+    }
+
+    private async Task RunEnterAnimation()
+    {
+        try
+        {
+            this.Opacity = 0;
+            this.TranslationY = 12;
+            await Task.WhenAll(this.FadeTo(1, 300, Easing.CubicOut), this.TranslateTo(0, 0, 300, Easing.CubicOut));
+        }
+        catch { }
     }
 
     private async Task PersistAsync()
