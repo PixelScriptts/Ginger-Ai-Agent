@@ -3,8 +3,8 @@ namespace AiAgent.Pages;
 public partial class FilesPage : ContentPage
 {
     // Fields referenced from XAML (will be wired by LoadFromXaml)
-    private Label FileLabel;
-    private Label PreviewLabel;
+    private Label? FileLabel;
+    private Label? PreviewLabel;
 
     public FilesPage()
     {

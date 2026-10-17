@@ -1,0 +1,13 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AiAgent.Pages.FilesPage"
+             BackgroundColor="#0F0F12">
+    <VerticalStackLayout Padding="16" Spacing="12">
+        <Label Text="Files" FontSize="20" TextColor="White"/>
+        <Button Text="Pick file" Clicked="OnPickFile" BackgroundColor="#6C4DFF" TextColor="White"/>
+        <Label x:Name="FileLabel" Text="No file selected" TextColor="#AAA"/>
+        <ScrollView HeightRequest="300">
+            <Label x:Name="PreviewLabel" Text="" TextColor="White"/>
+        </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>
