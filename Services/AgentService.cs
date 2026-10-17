@@ -15,12 +15,20 @@ public class AgentService
     public async Task<string> SendAsync(string prompt, CancellationToken ct = default)
     {
         var settings = _store.LoadSettings();
-        var apiKey = await ProviderCredentialService.GetAsync(settings.SelectedProviderId);
+        // If using a custom provider, prefer its ID and base URL
+        var providerId = settings.UseCustomProvider && !string.IsNullOrWhiteSpace(settings.CustomProviderId) ? settings.CustomProviderId : settings.SelectedProviderId;
+        var apiKey = await ProviderCredentialService.GetAsync(providerId);
         if (string.IsNullOrWhiteSpace(apiKey))
             throw new InvalidOperationException("Provider connection is required. Go to Settings and save your API key.");
 
         var system = settings.SystemPrompt;
-        return settings.SelectedProviderId switch
+        if (settings.UseCustomProvider && !string.IsNullOrWhiteSpace(settings.CustomProviderBaseUrl))
+        {
+            // Treat as OpenAI-compatible endpoint
+            return await SendOpenAICompatibleAsync(apiKey, settings, system, prompt, ct, settings.CustomProviderBaseUrl);
+        }
+
+        return providerId switch
         {
             "anthropic" => await SendAnthropicAsync(apiKey, settings.SelectedModel, system, prompt, settings, ct),
             "gemini" => await SendGeminiAsync(apiKey, settings.SelectedModel, system, prompt, settings, ct),
@@ -28,18 +36,23 @@ public class AgentService
         };
     }
 
+    // Overload supports optional baseUrl override for custom providers
     private async Task<string> SendOpenAICompatibleAsync(string apiKey, AppSettings s, string system, string prompt, CancellationToken ct)
+        => await SendOpenAICompatibleAsync(apiKey, s, system, prompt, ct, null);
+
+    private async Task<string> SendOpenAICompatibleAsync(string apiKey, AppSettings s, string system, string prompt, CancellationToken ct, string? baseUrlOverride)
     {
-        var (url, model) = s.SelectedProviderId switch
+        var (url, model) = (baseUrlOverride, s.SelectedProviderId) switch
         {
-            "openai" => ("https://api.openai.com/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "gpt-4o-mini" : s.SelectedModel),
-            "groq" => ("https://api.groq.com/openai/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "llama-3.3-70b-versatile" : s.SelectedModel),
-            "openrouter" => ("https://openrouter.ai/api/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "openai/gpt-4o-mini" : s.SelectedModel),
-            "mistral" => ("https://api.mistral.ai/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "mistral-large-latest" : s.SelectedModel),
-            "deepseek" => ("https://api.deepseek.com/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "deepseek-chat" : s.SelectedModel),
-            "together" => ("https://api.together.xyz/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo" : s.SelectedModel),
-            "perplexity" => ("https://api.perplexity.ai/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "sonar" : s.SelectedModel),
-            "azure" => throw new InvalidOperationException("Azure OpenAI requires endpoint override. Use OpenAI-compatible URL or set AZURE endpoint in model field as https://{resource}.openai.azure.com/openai/deployments/{deployment}/chat/completions?api-version=2024-02-15-preview"),
+            (string u, _) when !string.IsNullOrWhiteSpace(u) => (u, s.SelectedModel),
+            (_, "openai") => ("https://api.openai.com/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "gpt-4o-mini" : s.SelectedModel),
+            (_, "groq") => ("https://api.groq.com/openai/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "llama-3.3-70b-versatile" : s.SelectedModel),
+            (_, "openrouter") => ("https://openrouter.ai/api/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "openai/gpt-4o-mini" : s.SelectedModel),
+            (_, "mistral") => ("https://api.mistral.ai/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "mistral-large-latest" : s.SelectedModel),
+            (_, "deepseek") => ("https://api.deepseek.com/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "deepseek-chat" : s.SelectedModel),
+            (_, "together") => ("https://api.together.xyz/v1/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo" : s.SelectedModel),
+            (_, "perplexity") => ("https://api.perplexity.ai/chat/completions", string.IsNullOrWhiteSpace(s.SelectedModel) ? "sonar" : s.SelectedModel),
+            (_, "azure") => throw new InvalidOperationException("Azure OpenAI requires endpoint override. Use OpenAI-compatible URL or set AZURE endpoint in model field as https://{resource}.openai.azure.com/openai/deployments/{deployment}/chat/completions?api-version=2024-02-15-preview"),
             _ => ("https://api.openai.com/v1/chat/completions", s.SelectedModel),
         };
 

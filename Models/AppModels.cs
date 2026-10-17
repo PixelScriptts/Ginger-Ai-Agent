@@ -43,4 +43,8 @@ public class AppSettings
     public string SystemPrompt { get; set; } = "You are Ginger, a helpful AI assistant.";
     public double Temperature { get; set; } = 0.7;
     public int MaxTokens { get; set; } = 1024;
+    // Custom provider settings
+    public bool UseCustomProvider { get; set; } = false;
+    public string CustomProviderId { get; set; } = "";
+    public string CustomProviderBaseUrl { get; set; } = "";
 }

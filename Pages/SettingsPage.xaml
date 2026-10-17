@@ -12,7 +12,18 @@
             <BoxView HeightRequest="1" Color="#23232B"/>
 
             <Label Text="Provider" TextColor="White" FontAttributes="Bold"/>
-            <Picker x:Name="ProviderPicker" TextColor="White" Title="Select provider" SelectedIndexChanged="OnProviderChanged"/>
+            <HorizontalStackLayout Spacing="8">
+                <Picker x:Name="ProviderPicker" TextColor="White" Title="Select provider" SelectedIndexChanged="OnProviderChanged" HorizontalOptions="StartAndExpand"/>
+                <VerticalStackLayout>
+                    <Label Text="Custom" TextColor="#AAA" FontSize="10"/>
+                    <Switch x:Name="UseCustomSwitch" Toggled="OnUseCustomToggled" HorizontalOptions="End"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <Label Text="Custom Provider ID" TextColor="White" FontAttributes="Bold" IsVisible="False" x:Name="CustomIdLabel"/>
+            <Entry x:Name="CustomProviderIdEntry" Placeholder="e.g. my-provider" TextColor="White" PlaceholderColor="#666" IsVisible="False"/>
+            <Label Text="Custom Provider Base URL" TextColor="White" FontAttributes="Bold" IsVisible="False" x:Name="CustomBaseUrlLabel"/>
+            <Entry x:Name="CustomProviderBaseUrlEntry" Placeholder="https://api.example.com" TextColor="White" PlaceholderColor="#666" IsVisible="False"/>
 
             <Label Text="API Key" TextColor="White" FontAttributes="Bold"/>
             <Entry x:Name="ApiKeyEntry" Placeholder="Paste API key" IsPassword="True" TextColor="White" PlaceholderColor="#666"/>
