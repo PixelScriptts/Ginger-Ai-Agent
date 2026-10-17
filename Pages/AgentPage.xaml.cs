@@ -2,7 +2,7 @@ using AiAgent.Services;
 
 namespace AiAgent.Pages;
 
-public partial class AgentPage : ContentPage
+public partial class AgentPage : BaseAnimatedPage
 {
     private readonly ConversationStore _store;
     private readonly AgentService _agent;

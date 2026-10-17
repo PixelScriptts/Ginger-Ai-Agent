@@ -3,7 +3,7 @@ using AiAgent.Services;
 
 namespace AiAgent.Pages;
 
-public partial class SettingsPage : ContentPage
+public partial class SettingsPage : BaseAnimatedPage
 {
     private readonly ConversationStore _store;
     private AppSettings _settings = new();

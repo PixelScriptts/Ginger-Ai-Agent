@@ -1,6 +1,6 @@
 namespace AiAgent.Pages;
 
-public partial class FilesPage : ContentPage
+public partial class FilesPage : BaseAnimatedPage
 {
     public FilesPage() => InitializeComponent();
 

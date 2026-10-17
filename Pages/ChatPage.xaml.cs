@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace AiAgent.Pages;
 
-public partial class ChatPage : ContentPage
+public partial class ChatPage : BaseAnimatedPage
 {
     private readonly ConversationStore _store;
     private readonly AgentService _agent;
