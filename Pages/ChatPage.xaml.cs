@@ -22,7 +22,7 @@ public partial class ChatPage : ContentPage
         }
         catch { }
     }
-{
+
     private readonly ConversationStore _store;
     private readonly AgentService _agent;
     private ObservableCollection<ChatMessage> _messages = new();

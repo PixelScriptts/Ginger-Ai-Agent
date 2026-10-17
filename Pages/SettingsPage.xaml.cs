@@ -21,7 +21,7 @@ public partial class SettingsPage : ContentPage
         }
         catch { }
     }
-{
+
     private readonly ConversationStore _store;
     private AppSettings _settings = new();
 

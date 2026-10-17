@@ -18,7 +18,7 @@ public partial class FilesPage : ContentPage
         }
         catch { }
     }
-{
+
     public FilesPage() => InitializeComponent();
 
     private async void OnPickFile(object? sender, EventArgs e)

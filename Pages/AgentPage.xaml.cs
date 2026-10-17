@@ -20,7 +20,7 @@ public partial class AgentPage : ContentPage
         }
         catch { }
     }
-{
+
     private readonly ConversationStore _store;
     private readonly AgentService _agent;
 
