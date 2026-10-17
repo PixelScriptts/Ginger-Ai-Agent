@@ -2,7 +2,20 @@ namespace AiAgent.Pages;
 
 public partial class FilesPage : ContentPage
 {
-    public FilesPage() => InitializeComponent();
+    // Fields referenced from XAML (will be wired by LoadFromXaml)
+    private Label FileLabel;
+    private Label PreviewLabel;
+
+    public FilesPage()
+    {
+        InitializeComponent();
+    }
+
+    // Fallback InitializeComponent that loads XAML at runtime when source-gen isn't available
+    public void InitializeComponent()
+    {
+        Microsoft.Maui.Controls.Xaml.Extensions.LoadFromXaml(this, typeof(FilesPage));
+    }
 
     private async void OnPickFile(object? sender, EventArgs e)
     {
