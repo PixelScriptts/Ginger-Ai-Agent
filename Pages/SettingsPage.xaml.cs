@@ -178,12 +178,6 @@ public partial class SettingsPage : ContentPage
         _settings.UseCustomProvider = UseCustomSwitch.IsToggled;
         _settings.CustomProviderId = CustomProviderIdEntry.Text?.Trim() ?? "";
         _settings.CustomProviderBaseUrl = CustomProviderBaseUrlEntry.Text?.Trim() ?? "";
-        _store.SaveSettings(_settings);
-        await RefreshConnectionsAsync();
-    }
-
-
-        _settings.CustomProviderBaseUrl = CustomProviderBaseUrlEntry.Text?.Trim() ?? "";
         if (int.TryParse(MaxTokensEntry.Text, out var mt)) _settings.MaxTokens = mt;
         _store.SaveSettings(_settings);
         SaveResultLabel.TextColor = Color.FromArgb("#6CFF8A");
