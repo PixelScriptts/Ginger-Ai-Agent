@@ -17,10 +17,13 @@
 	<TabBar>
 		<ShellContent Title="Chat" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.ChatPage}" Route="ChatPage"/>
 		<ShellContent Title="Agent" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.AgentPage}" Route="AgentPage"/>
+	</TabBar>
+
+	<FlyoutItem Title="More" FlyoutDisplayOptions="AsMultipleItems">
 		<ShellContent Title="Files" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.FilesPage}" Route="FilesPage"/>
 		<ShellContent Title="Terminal" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.TerminalPage}" Route="TerminalPage"/>
 		<ShellContent Title="Preview" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.PreviewPage}" Route="PreviewPage"/>
 		<ShellContent Title="History" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.HistoryPage}" Route="HistoryPage"/>
 		<ShellContent Title="Settings" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.SettingsPage}" Route="SettingsPage"/>
-	</TabBar>
+	</FlyoutItem>
 </Shell>
