@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AiAgent.Pages.ChatPage" Title="Chat" BackgroundColor="#0F0F12">
+<Grid RowDefinitions="*,Auto" Padding="12,8">
+<CollectionView x:Name="MessagesView" Grid.Row="0" SelectionMode="None" Margin="0,0,0,8">
+<CollectionView.ItemTemplate><DataTemplate><Border Padding="10" Margin="0,6" StrokeThickness="0"><Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape><VerticalStackLayout Spacing="4"><Label Text="{Binding Role}" FontSize="11" TextColor="#888"/><Label Text="{Binding Content}" TextColor="White" FontSize="14" LineBreakMode="WordWrap"/></VerticalStackLayout></Border></DataTemplate></CollectionView.ItemTemplate>
+<CollectionView.EmptyView><VerticalStackLayout Padding="24" Spacing="10" VerticalOptions="Center" HorizontalOptions="Center"><Label Text="Ginger Agent" FontSize="22" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/><Label Text="Ask anything. Key stored securely on-device." FontSize="13" TextColor="#999" HorizontalOptions="Center" HorizontalTextAlignment="Center"/></VerticalStackLayout></CollectionView.EmptyView>
+</CollectionView>
+<Border Grid.Row="1" Stroke="#2D2D36" StrokeThickness="1" BackgroundColor="#1A1A20" Padding="8"><Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape><Grid ColumnDefinitions="*,Auto" ColumnSpacing="8"><Entry x:Name="PromptEntry" Grid.Column="0" Placeholder="Send a message..." TextColor="White" PlaceholderColor="#666" ReturnType="Send" Completed="OnSendClicked"/><Button Grid.Column="1" Text="Send" Clicked="OnSendClicked" BackgroundColor="#6C4DFF" TextColor="White" CornerRadius="12" Padding="16,0"/></Grid></Border>
+<ActivityIndicator x:Name="Busy" Grid.Row="0" IsVisible="False" IsRunning="False" Color="#6C4DFF" VerticalOptions="Center" HorizontalOptions="Center"/>
+</Grid>
+</ContentPage>

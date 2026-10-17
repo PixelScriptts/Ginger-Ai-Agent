@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+	x:Class="AiAgent.AppShell"
+	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:AiAgent"
+	Shell.FlyoutBehavior="Flyout"
+	Title="Ginger Agent">
+
+	<Shell.FlyoutHeader>
+		<VerticalStackLayout Padding="16" Spacing="4" BackgroundColor="#0F0F12">
+			<Label Text="Ginger Agent" FontSize="20" FontAttributes="Bold" TextColor="White"/>
+			<Label Text="ginger.ai.agent" FontSize="11" TextColor="#888"/>
+		</VerticalStackLayout>
+	</Shell.FlyoutHeader>
+
+	<TabBar>
+		<ShellContent Title="Chat" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.ChatPage}" Route="ChatPage"/>
+		<ShellContent Title="Agent" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.AgentPage}" Route="AgentPage"/>
+		<ShellContent Title="Files" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.FilesPage}" Route="FilesPage"/>
+		<ShellContent Title="Terminal" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.TerminalPage}" Route="TerminalPage"/>
+		<ShellContent Title="Preview" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.PreviewPage}" Route="PreviewPage"/>
+		<ShellContent Title="History" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.HistoryPage}" Route="HistoryPage"/>
+		<ShellContent Title="Settings" Icon="dotnet_bot.png" ContentTemplate="{DataTemplate local:Pages.SettingsPage}" Route="SettingsPage"/>
+	</TabBar>
+</Shell>

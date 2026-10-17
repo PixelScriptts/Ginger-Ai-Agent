@@ -1,0 +1,47 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install Android SDK tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-17-jdk wget unzip
+          mkdir -p $HOME/.android/sdk
+          export ANDROID_SDK_ROOT=$HOME/.android/sdk
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O /tmp/cmdline-tools.zip
+          unzip -q /tmp/cmdline-tools.zip -d $HOME/.android/sdk
+          mkdir -p $HOME/.android/sdk/cmdline-tools/latest
+          mv $HOME/.android/sdk/cmdline-tools/* $HOME/.android/sdk/cmdline-tools/latest/
+          yes | $HOME/.android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "platforms;android-31" "build-tools;33.0.2"
+        env:
+          JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
+
+      - name: Install MAUI workloads
+        run: |
+          dotnet workload install maui --from-rollback-file || dotnet workload install maui
+
+      - name: Publish APK
+        run: |
+          dotnet publish AiAgent.csproj -f net10.0-android -c Release -p:AndroidPackageFormat=apk -p:RuntimeIdentifier=android-arm64 -o ./artifacts/android
+
+      - name: Upload Android artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ginger-android-apk
+          path: artifacts/android

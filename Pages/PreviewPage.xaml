@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AiAgent.Pages.PreviewPage"
+             Title="Preview"
+             BackgroundColor="#0F0F12">
+    <Grid RowDefinitions="Auto,*" Padding="12" RowSpacing="10">
+        <VerticalStackLayout Spacing="6">
+            <Label Text="Preview" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Render local HTML or remote URL in-app." TextColor="#888" FontSize="12"/>
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Entry x:Name="UrlEntry" Placeholder="https://example.com  or  file preview" TextColor="White" PlaceholderColor="#555" BackgroundColor="#1A1A20"/>
+                <Button Grid.Column="1" Text="Load" Clicked="OnLoad" BackgroundColor="#6C4DFF" TextColor="White" CornerRadius="10"/>
+            </Grid>
+        </VerticalStackLayout>
+        <WebView x:Name="Viewer" Grid.Row="1" />
+    </Grid>
+</ContentPage>

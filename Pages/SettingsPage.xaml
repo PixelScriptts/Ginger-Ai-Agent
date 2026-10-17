@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AiAgent.Pages.SettingsPage"
+             Title="Settings"
+             BackgroundColor="#0F0F12">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+            <Label Text="Ginger Agent" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Conversations use local app storage. Provider credentials use the device secure store (Android Keystore / iOS Keychain)." TextColor="#888" FontSize="12"/>
+
+            <BoxView HeightRequest="1" Color="#23232B"/>
+
+            <Label Text="Provider" TextColor="White" FontAttributes="Bold"/>
+            <Picker x:Name="ProviderPicker" TextColor="White" Title="Select provider" SelectedIndexChanged="OnProviderChanged"/>
+
+            <Label Text="API Key" TextColor="White" FontAttributes="Bold"/>
+            <Entry x:Name="ApiKeyEntry" Placeholder="Paste API key" IsPassword="True" TextColor="White" PlaceholderColor="#666"/>
+            <Label x:Name="KeyStatusLabel" Text="" FontSize="12" TextColor="#6CFF8A"/>
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Save API Key" Clicked="OnSaveKey" BackgroundColor="#6C4DFF" TextColor="White" CornerRadius="10"/>
+                <Button Text="Delete Key" Clicked="OnDeleteKey" BackgroundColor="#2A2A33" TextColor="White" CornerRadius="10"/>
+                <Button Text="Test" Clicked="OnTestKey" BackgroundColor="#1A1A20" TextColor="White" BorderColor="#333" BorderWidth="1" CornerRadius="10"/>
+            </HorizontalStackLayout>
+            <Label x:Name="SaveResultLabel" Text="" FontSize="12" TextColor="#FFD66C"/>
+
+            <BoxView HeightRequest="1" Color="#23232B"/>
+
+            <Label Text="Model" TextColor="White" FontAttributes="Bold"/>
+            <Entry x:Name="ModelEntry" Placeholder="e.g. gpt-4o-mini" TextColor="White" PlaceholderColor="#666"/>
+
+            <Label Text="System Prompt" TextColor="White" FontAttributes="Bold"/>
+            <Editor x:Name="SystemPromptEditor" AutoSize="TextChanges" HeightRequest="90" TextColor="White" BackgroundColor="#1A1A20"/>
+
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <VerticalStackLayout>
+                    <Label Text="Temperature" TextColor="White" FontAttributes="Bold"/>
+                    <Slider x:Name="TempSlider" Minimum="0" Maximum="2" ValueChanged="OnTempChanged"/>
+                </VerticalStackLayout>
+                <Label x:Name="TempLabel" Grid.Column="1" Text="0.70" TextColor="White" VerticalOptions="Center"/>
+            </Grid>
+
+            <Label Text="Max Tokens" TextColor="White" FontAttributes="Bold"/>
+            <Entry x:Name="MaxTokensEntry" Keyboard="Numeric" TextColor="White" PlaceholderColor="#666"/>
+
+            <Button Text="Save Settings" Clicked="OnSaveSettings" BackgroundColor="#6C4DFF" TextColor="White" CornerRadius="10"/>
+
+            <BoxView HeightRequest="1" Color="#23232B"/>
+            <Label Text="Connections" TextColor="White" FontAttributes="Bold"/>
+            <CollectionView x:Name="ConnectionList" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,Auto" Padding="0,6">
+                            <Label Text="{Binding Name}" TextColor="White" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="{Binding Status}" TextColor="#6CFF8A" VerticalOptions="Center">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{Binding Connected}" Value="False">
+                                        <Setter Property="TextColor" Value="#FF6B6B"/>
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

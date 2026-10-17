@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AiAgent.Pages.AgentPage"
+             Title="Agent"
+             BackgroundColor="#0F0F12">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+            <Label Text="Ginger Agent" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Run tasks with your selected provider. Set model + system prompt in Settings." TextColor="#888" FontSize="12"/>
+            <Border Stroke="#2D2D36" StrokeThickness="1" BackgroundColor="#1A1A20" Padding="10">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="ProviderLabel" Text="Provider: openai" TextColor="#AAA" FontSize="12"/>
+                    <Editor x:Name="TaskEditor" Placeholder="Describe the task for the agent..." AutoSize="TextChanges" HeightRequest="90" TextColor="White" PlaceholderColor="#666" BackgroundColor="#1A1A20"/>
+                    <Button Text="Run Agent" Clicked="OnRun" BackgroundColor="#6C4DFF" TextColor="White" CornerRadius="10"/>
+                </VerticalStackLayout>
+            </Border>
+            <Border Stroke="#2D2D36" StrokeThickness="1" BackgroundColor="#1C1C22" Padding="12">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Output" TextColor="#6CFF8A" FontAttributes="Bold"/>
+                    <ActivityIndicator x:Name="Busy" IsVisible="False" IsRunning="False" Color="#6C4DFF"/>
+                    <Label x:Name="OutputLabel" Text="Agent output will appear here." TextColor="White" FontSize="13" LineBreakMode="WordWrap"/>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
