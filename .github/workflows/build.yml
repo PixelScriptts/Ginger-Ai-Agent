@@ -25,10 +25,21 @@ jobs:
           mkdir -p $HOME/.android/sdk
           export ANDROID_SDK_ROOT=$HOME/.android/sdk
           wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O /tmp/cmdline-tools.zip
-          unzip -q /tmp/cmdline-tools.zip -d $HOME/.android/sdk
-          mkdir -p $HOME/.android/sdk/cmdline-tools/latest
-          mv $HOME/.android/sdk/cmdline-tools/* $HOME/.android/sdk/cmdline-tools/latest/
-          yes | $HOME/.android/sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "platforms;android-31" "build-tools;33.0.2"
+          mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
+          unzip -q /tmp/cmdline-tools.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
+          # Normalize layout: some zips extract to cmdline-tools/cmdline-tools
+          if [ -d "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" ]; then
+            mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+            mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools/"* "$ANDROID_SDK_ROOT/cmdline-tools/latest/"
+            rm -rf "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools"
+          else
+            mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+            # move contents into latest if not already present
+            if [ ! -d "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" ]; then
+              mv "$ANDROID_SDK_ROOT/cmdline-tools/"* "$ANDROID_SDK_ROOT/cmdline-tools/latest/" 2>/dev/null || true
+            fi
+          fi
+          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="${ANDROID_SDK_ROOT}" "platform-tools" "platforms;android-31" "build-tools;33.0.2"
         env:
           JAVA_HOME: /usr/lib/jvm/java-17-openjdk-amd64
 
